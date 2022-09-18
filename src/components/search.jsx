@@ -43,7 +43,7 @@ export default class Search extends Component {
     const prevPage = prevState.page;
     const thisPage = this.state.page;
     if (prevName !== thisName) {
-      this.state.pictures = [];
+      this.setState({ pictures: [] });
     }
     if (prevName !== thisName || prevPage !== thisPage) {
       console.log('Идёт поиск...');
