@@ -63,11 +63,6 @@ export default class Search extends Component {
             pictures: [...prevState.pictures, ...pictures.hits],
             totalPages: Math.ceil(pictures.totalHits / 12),
           });
-          // if (this.state.pictures.length === 0) {
-          //   console.log('длина: ', this.state.pictures.length);
-          //   this.setState({ status: 'error' });
-          //   return Promise.reject(new Error('Поиск не удался'));
-          // }
           this.setState({ status: 'ok' });
         });
     }
@@ -75,7 +70,6 @@ export default class Search extends Component {
 
   render() {
     // console.log(this.state.pictures);
-
     // console.log(this.state.page);
     // console.log(this.state.totalPages);
     if (this.state.pictures.length === 0) {
