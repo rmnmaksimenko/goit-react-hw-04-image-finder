@@ -74,9 +74,9 @@ export default class Search extends Component {
   }
 
   render() {
-    console.log(this.state.pictures);
-    console.log(this.state.page);
-    console.log(this.state.totalPages);
+    // console.log(this.state.pictures);
+    // console.log(this.state.page);
+    // console.log(this.state.totalPages);
     if (this.state.pictures.length === 0) {
       return;
     }
