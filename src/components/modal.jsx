@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-pascal-case */
 import { Component } from 'react';
 import { Modal__backdrop, Modal__content } from './modal.styled';
 import { createPortal } from 'react-dom';
