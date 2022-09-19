@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import './styles.css';
 
@@ -30,6 +31,9 @@ export default class Form extends Component {
               value={this.state.keyword}
               onChange={this.onType}
               className="SearchForm-input"
+              autoComplete="off"
+              autoFocus
+              placeholder="Search images and photos"
             />
           </form>
         </div>
@@ -37,3 +41,7 @@ export default class Form extends Component {
     );
   }
 }
+
+Form.propTypes = {
+  onSearch: PropTypes.func.isRequired,
+};

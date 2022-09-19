@@ -1,12 +1,13 @@
 import { Component } from 'react';
-import Form from './form';
-import Search from './search';
+import Form from './Searchbar';
+import Search from './ImageGallery';
 import './styles.css';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class App extends Component {
   state = {
     searchString: '',
-    status: '',
   };
 
   handleSubmit = submitText => {
@@ -17,8 +18,8 @@ export default class App extends Component {
     return (
       <div>
         <Form onSearch={this.handleSubmit} />
-        {/* <p>{this.state.searchString}</p> */}
         <Search onSearch={this.state.searchString} />
+        <ToastContainer />
       </div>
     );
   }
