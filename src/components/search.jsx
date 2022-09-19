@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import Modal from './modal';
 import './styles.css';
 
 const API_KEY = '27863078-b4a956cfdf1b52b765bed6289';
@@ -12,6 +13,8 @@ export default class Search extends Component {
     searchString: '',
     pictures: [],
     totalPages: null,
+    showModal: false,
+    largeURL: '',
   };
 
   onSearch = () => {
@@ -30,6 +33,20 @@ export default class Search extends Component {
         return Promise.reject(new Error('Поиск не удался'));
       })
       .then(pictures => this.setState({ pictures: pictures }));
+  };
+
+  toggleModal = e => {
+    if (e) {
+      this.setState({ largeURL: e.currentTarget.attributes.large.textContent });
+      console.log(e.currentTarget.attributes.large.textContent);
+    }
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
+  handleClick = () => {
+    console.log('кликнул по картинке');
   };
 
   onLoadMore = () => {
@@ -69,6 +86,7 @@ export default class Search extends Component {
   }
 
   render() {
+    const { showModal } = this.state;
     // console.log(this.state.pictures);
     // console.log(this.state.page);
     // console.log(this.state.totalPages);
@@ -89,6 +107,8 @@ export default class Search extends Component {
                   src={pic.webformatURL}
                   width="300"
                   alt=""
+                  large={pic.largeImageURL}
+                  onClick={this.toggleModal}
                 />
               </li>
             ))}
@@ -101,6 +121,11 @@ export default class Search extends Component {
             </button>
           </div>
         ) : null}
+        {showModal && (
+          <Modal onCloseModal={this.toggleModal}>
+            {<img src={this.state.largeURL} alt="" />}
+          </Modal>
+        )}
       </div>
     );
   }
