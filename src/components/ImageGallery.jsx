@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { Component } from 'react';
-import { Modal } from './Modal';
+import { Modal } from './Modal.jsx';
 import './styles.css';
 import { ImageGalleryItem } from './ImageGalleryItem';
 import { LoadMore } from './Button';
