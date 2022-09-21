@@ -15,6 +15,7 @@ export default class Search extends Component {
     totalPages: null,
     showModal: false,
     largeURL: '',
+    loading: false,
   };
 
   toggleModal = e => {
@@ -50,6 +51,7 @@ export default class Search extends Component {
     // console.log(prevPage, thisPage);
     if (prevName !== thisName || prevPage < thisPage) {
       // console.log('Идёт поиск...');
+      this.setState({ loading: true });
       fetch(
         `https://pixabay.com/api/?key=${API_KEY}&q=${this.props.onSearch}&image_type=photo&page=${thisPage}&per_page=12`
       )
@@ -66,6 +68,7 @@ export default class Search extends Component {
               totalPages: Math.ceil(pictures.totalHits / 12),
               page: 1,
             });
+            this.setState({ loading: false });
             if (pictures.hits.length === 0) {
               return toast.warn('Nothing was found', {
                 position: 'top-center',
@@ -83,6 +86,7 @@ export default class Search extends Component {
           this.setState({
             pictures: [...this.state.pictures, ...pictures.hits],
           });
+          this.setState({ loading: false });
         });
     }
   }
@@ -121,7 +125,7 @@ export default class Search extends Component {
             })}
           </ul>
         )}
-        {this.state.page < this.state.totalPages ? (
+        {this.state.page < this.state.totalPages && !this.state.loading ? (
           <LoadMore onLoadMore={this.onLoadMore} />
         ) : null}
         {endOfSearch === true ? (
