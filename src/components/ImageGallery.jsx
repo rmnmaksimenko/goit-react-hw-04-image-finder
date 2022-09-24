@@ -3,6 +3,7 @@ import './styles.css';
 import { ImageGalleryItem } from './ImageGalleryItem';
 
 export default function ImageGallery({ pictures, toggleModal }) {
+  // console.log(pictures);
   return (
     <ul className="ImageGallery">
       {pictures.map(pic => {
@@ -18,3 +19,14 @@ export default function ImageGallery({ pictures, toggleModal }) {
     </ul>
   );
 }
+
+ImageGallery.propTypes = {
+  pictures: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    })
+  ),
+  toggleModal: PropTypes.func.isRequired,
+};
