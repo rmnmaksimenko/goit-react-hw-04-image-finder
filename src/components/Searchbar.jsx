@@ -5,7 +5,7 @@ import './styles.css';
 export default function Form({ onQuery }) {
   const [keyword, setKeyword] = useState('');
 
-  const onType = e => {
+  const handleType = e => {
     setKeyword(e.currentTarget.value);
   };
 
@@ -15,6 +15,7 @@ export default function Form({ onQuery }) {
       return;
     }
     onQuery(keyword.trim());
+    setKeyword('');
   };
 
   return (
@@ -27,7 +28,7 @@ export default function Form({ onQuery }) {
           <input
             type="text"
             value={keyword}
-            onChange={onType}
+            onChange={handleType}
             className="SearchForm-input"
             autoComplete="off"
             autoFocus
@@ -40,5 +41,5 @@ export default function Form({ onQuery }) {
 }
 
 Form.propTypes = {
-  onSearch: PropTypes.func.isRequired,
+  onQuery: PropTypes.func.isRequired,
 };
