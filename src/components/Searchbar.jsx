@@ -1,45 +1,42 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import './styles.css';
 
-export default class Form extends Component {
-  state = {
-    keyword: '',
-    searchString: '',
+export default function Form({ onQuery }) {
+  const [keyword, setKeyword] = useState('');
+
+  const onType = e => {
+    setKeyword(e.currentTarget.value);
   };
 
-  onType = e => {
-    this.setState({ keyword: e.currentTarget.value });
-  };
-
-  onSearch = e => {
+  const HandleSearch = e => {
     e.preventDefault();
-    this.props.onSearch(this.state.keyword);
-    // console.log(this.state.keyword, this.state.searchString);
+    if (keyword.trim() === '') {
+      return;
+    }
+    onQuery(keyword.trim());
   };
 
-  render() {
-    return (
-      <div>
-        <div className="Searchbar">
-          <form onSubmit={this.onSearch} className="SearchForm">
-            <button type="submit" className="SearchForm-button">
-              Find
-            </button>
-            <input
-              type="text"
-              value={this.state.keyword}
-              onChange={this.onType}
-              className="SearchForm-input"
-              autoComplete="off"
-              autoFocus
-              placeholder="Search images and photos"
-            />
-          </form>
-        </div>
+  return (
+    <div>
+      <div className="Searchbar">
+        <form onSubmit={HandleSearch} className="SearchForm">
+          <button type="submit" className="SearchForm-button">
+            Find
+          </button>
+          <input
+            type="text"
+            value={keyword}
+            onChange={onType}
+            className="SearchForm-input"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+          />
+        </form>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 Form.propTypes = {
