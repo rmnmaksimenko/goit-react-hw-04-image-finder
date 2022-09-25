@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useRef, useState } from 'react';
 import { LoadMore } from './Button';
 import { Modal } from './modal/modal';
-import FetchPictures from './FetchPictures';
+import FetchPictures from './FetchPictures/FetchPictures';
 import ImageGallery from './ImageGallery';
 
 export default function App() {
