@@ -1,12 +1,13 @@
 import Form from './Searchbar';
 import './styles.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useRef, useState } from 'react';
 import { LoadMore } from './Button';
 import { Modal } from './modal/modal';
 import FetchPictures from './FetchPictures/FetchPictures';
 import ImageGallery from './ImageGallery';
+import ToastWarn from './ToastWarn/ToastWarn';
 
 export default function App() {
   const [queryString, setQueryString] = useState('');
@@ -16,7 +17,6 @@ export default function App() {
   const [totalPages, setTotalPages] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [largeURL, setLargeURL] = useState('');
-  const onSearch = queryString;
   const isLoaded = useRef(false);
 
   const handleSubmit = submitText => {
@@ -45,27 +45,18 @@ export default function App() {
       return;
     }
 
-    if (!onSearch) {
-      toast.warn('Type something first', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+    if (!queryString) {
       return;
     }
-    FetchPictures(onSearch, page).then(picData => {
-      console.log(picData);
-      console.log(page);
+    FetchPictures(queryString, page).then(picData => {
       setPictures(prevPictures => [...prevPictures, ...picData.hits]);
       setTotalPages(Math.ceil(picData.totalHits / 12));
+      if (picData.hits.length === 0) {
+        ToastWarn('Nothing was found');
+      }
     });
-  }, [onSearch, page]);
+  }, [queryString, page]);
 
-  // console.log(this.state.pictures);
   let endOfSearch = false;
   if (page === totalPages && pictures.length > 0) {
     endOfSearch = true;
@@ -79,18 +70,17 @@ export default function App() {
           <ImageGallery pictures={pictures} toggleModal={toggleModal} />
         )}
         {page < totalPages && <LoadMore onLoadMore={onLoadMore} />}
-        {endOfSearch === true ? (
+        {endOfSearch === true && (
           <h2 className="EndOfSearch" т>
             End of Search
           </h2>
-        ) : null}
+        )}
         {showModal && (
           <Modal onCloseModal={toggleModal}>
             {<img src={largeURL} alt="" />}
           </Modal>
         )}
       </div>
-      {/* <Search onSearch={searchString} /> */}
       <ToastContainer />
     </div>
   );

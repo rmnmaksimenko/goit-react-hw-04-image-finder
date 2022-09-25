@@ -3,7 +3,6 @@ import './styles.css';
 import { ImageGalleryItem } from './ImageGalleryItem';
 
 export default function ImageGallery({ pictures, toggleModal }) {
-  // console.log(pictures);
   return (
     <ul className="ImageGallery">
       {pictures.map(pic => {

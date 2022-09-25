@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import './styles.css';
+import ToastWarn from './ToastWarn/ToastWarn';
 
 export default function Form({ onQuery }) {
   const [keyword, setKeyword] = useState('');
@@ -12,6 +13,7 @@ export default function Form({ onQuery }) {
   const HandleSearch = e => {
     e.preventDefault();
     if (keyword.trim() === '') {
+      ToastWarn('Type something first');
       return;
     }
     onQuery(keyword.trim());
