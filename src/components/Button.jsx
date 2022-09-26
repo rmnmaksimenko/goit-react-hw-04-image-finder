@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import './styles.css';
 
-export function LoadMore({ onLoadMore }) {
+export function LoadMore({ onLoadMore, ButtonText }) {
   return (
     <div className="Button-flex">
       <button className="Button" type="button" onClick={onLoadMore}>
-        Load More
+        {ButtonText}
       </button>
     </div>
   );

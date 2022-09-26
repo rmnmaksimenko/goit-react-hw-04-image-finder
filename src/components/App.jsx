@@ -1,12 +1,15 @@
-import Form from './Searchbar';
-import './styles.css';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useRef, useState } from 'react';
+
+import './styles.css';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+
+import Form from './Searchbar';
 import { LoadMore } from './Button';
-import { Modal } from './modal/modal';
 import FetchPictures from './FetchPictures/FetchPictures';
 import ImageGallery from './ImageGallery';
+import { Modal } from './modal/modal';
 import ToastWarn from './ToastWarn/ToastWarn';
 
 export default function App() {
@@ -17,6 +20,7 @@ export default function App() {
   const [totalPages, setTotalPages] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [largeURL, setLargeURL] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const isLoaded = useRef(false);
 
   const handleSubmit = submitText => {
@@ -48,13 +52,16 @@ export default function App() {
     if (!queryString) {
       return;
     }
-    FetchPictures(queryString, page).then(picData => {
-      setPictures(prevPictures => [...prevPictures, ...picData.hits]);
-      setTotalPages(Math.ceil(picData.totalHits / 12));
-      if (picData.hits.length === 0) {
-        ToastWarn('Nothing was found');
-      }
-    });
+    setIsLoading(true);
+    FetchPictures(queryString, page)
+      .then(picData => {
+        setPictures(prevPictures => [...prevPictures, ...picData.hits]);
+        setTotalPages(Math.ceil(picData.totalHits / 12));
+        if (picData.hits.length === 0) {
+          ToastWarn('Nothing was found');
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, [queryString, page]);
 
   let endOfSearch = false;
@@ -69,7 +76,13 @@ export default function App() {
         {pictures && (
           <ImageGallery pictures={pictures} toggleModal={toggleModal} />
         )}
-        {page < totalPages && <LoadMore onLoadMore={onLoadMore} />}
+        {page < totalPages ? (
+          isLoading === false ? (
+            <LoadMore onLoadMore={onLoadMore} ButtonText={'Load More'} />
+          ) : (
+            <div className="LoadNothing"></div>
+          )
+        ) : null}
         {endOfSearch === true && (
           <h2 className="EndOfSearch" т>
             End of Search

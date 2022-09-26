@@ -219,6 +219,10 @@ img {
   background-color: #303f9f;
 }
 
+.LoadNothing {
+  padding-top: 110px;
+}
+
 .EndOfSearch {
   text-align: center;
   text-decoration: underline;
