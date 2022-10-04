@@ -43,6 +43,15 @@ export default function App() {
     setPage(prevPage => prevPage + 1);
   };
 
+  const showLoadMoreButton = () => {
+    if (page < totalPages) {
+      if (isLoading === false) {
+        return <LoadMore onLoadMore={onLoadMore} ButtonText={'Load More'} />;
+      } else return <div className="LoadNothing"></div>;
+    }
+    return;
+  };
+
   useEffect(() => {
     if (!isLoaded.current) {
       isLoaded.current = true;
@@ -73,26 +82,10 @@ export default function App() {
     <div>
       <Form onQuery={handleSubmit} />
       <div>
-        {pictures && (
-          <ImageGallery pictures={pictures} toggleModal={toggleModal} />
-        )}
-        {page < totalPages ? (
-          isLoading === false ? (
-            <LoadMore onLoadMore={onLoadMore} ButtonText={'Load More'} />
-          ) : (
-            <div className="LoadNothing"></div>
-          )
-        ) : null}
-        {endOfSearch === true && (
-          <h2 className="EndOfSearch" т>
-            End of Search
-          </h2>
-        )}
-        {showModal && (
-          <Modal onCloseModal={toggleModal}>
-            {<img src={largeURL} alt="" />}
-          </Modal>
-        )}
+        {pictures && <ImageGallery pictures={pictures} toggleModal={toggleModal} />}
+        {showLoadMoreButton()}
+        {endOfSearch === true && <h2 className="EndOfSearch">End of Search</h2>}
+        {showModal && <Modal onCloseModal={toggleModal}>{<img src={largeURL} alt="" />}</Modal>}
       </div>
       <ToastContainer />
     </div>
