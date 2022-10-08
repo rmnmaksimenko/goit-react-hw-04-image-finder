@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import './styles.css';
 import { ImageGalleryItem } from './ImageGalleryItem';
 
-export default function ImageGallery({ pictures, toggleModal }) {
+export default function ImageGallery({ pictures, toggleModal, setLargeURL, setAlt }) {
   return (
     <ul className="ImageGallery">
       {pictures.map(pic => {
@@ -11,7 +11,10 @@ export default function ImageGallery({ pictures, toggleModal }) {
             key={pic.id}
             webformatURL={pic.webformatURL}
             largeImageURL={pic.largeImageURL}
+            tags={pic.tags}
             toggleModal={toggleModal}
+            setLargeURL={setLargeURL}
+            setAlt={setAlt}
           />
         );
       })}

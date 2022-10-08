@@ -9,9 +9,13 @@ export function ImageGalleryItem(pic) {
           className="ImageGalleryItem-image"
           src={pic.webformatURL}
           width="300"
-          alt=""
+          alt={pic.tags}
           large={pic.largeImageURL}
-          onClick={pic.toggleModal}
+          onClick={function () {
+            pic.toggleModal();
+            pic.setLargeURL(pic.largeImageURL);
+            pic.setAlt(pic.tags);
+          }}
         />
       }
     </li>

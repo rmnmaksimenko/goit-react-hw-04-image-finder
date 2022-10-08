@@ -11,15 +11,16 @@ import FetchPictures from './FetchPictures/FetchPictures';
 import ImageGallery from './ImageGallery';
 import { Modal } from './modal/modal';
 import ToastWarn from './ToastWarn/ToastWarn';
+import Spinner from './Spinner/Spinner';
 
 export default function App() {
   const [queryString, setQueryString] = useState('');
-
   const [page, setPage] = useState(1);
   const [pictures, setPictures] = useState([]);
   const [totalPages, setTotalPages] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [largeURL, setLargeURL] = useState('');
+  const [alt, setAlt] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const isLoaded = useRef(false);
 
@@ -32,10 +33,7 @@ export default function App() {
     setPictures([]);
   };
 
-  const toggleModal = e => {
-    if (e) {
-      setLargeURL(e.currentTarget.attributes.large.textContent);
-    }
+  const toggleModal = () => {
     setShowModal(!showModal);
   };
 
@@ -47,7 +45,7 @@ export default function App() {
     if (page < totalPages) {
       if (isLoading === false) {
         return <LoadMore onLoadMore={onLoadMore} ButtonText={'Load More'} />;
-      } else return <div className="LoadNothing"></div>;
+      } else return <Spinner />;
     }
     return;
   };
@@ -82,10 +80,17 @@ export default function App() {
     <div>
       <Form onQuery={handleSubmit} />
       <div>
-        {pictures && <ImageGallery pictures={pictures} toggleModal={toggleModal} />}
+        {pictures && (
+          <ImageGallery
+            pictures={pictures}
+            toggleModal={toggleModal}
+            setLargeURL={setLargeURL}
+            setAlt={setAlt}
+          />
+        )}
         {showLoadMoreButton()}
         {endOfSearch === true && <h2 className="EndOfSearch">End of Search</h2>}
-        {showModal && <Modal onCloseModal={toggleModal}>{<img src={largeURL} alt="" />}</Modal>}
+        {showModal && <Modal onCloseModal={toggleModal}>{<img src={largeURL} alt={alt} />}</Modal>}
       </div>
       <ToastContainer />
     </div>
