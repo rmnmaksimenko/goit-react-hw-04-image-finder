@@ -5,7 +5,7 @@ import './styles.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
-import Form from './Searchbar';
+import SearchForm from './Searchbar';
 import { LoadMore } from './Button';
 import FetchPictures from './FetchPictures/FetchPictures';
 import ImageGallery from './ImageGallery';
@@ -78,7 +78,7 @@ export default function App() {
 
   return (
     <div>
-      <Form onQuery={handleSubmit} />
+      <SearchForm onQuery={handleSubmit} />
       <div>
         {pictures && (
           <ImageGallery
