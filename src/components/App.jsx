@@ -10,7 +10,8 @@ import { LoadMore } from './Button';
 import ImageGallery from './ImageGallery';
 import { Modal } from './modal/modal';
 import Spinner from './Spinner/Spinner';
-import useLoading from 'hooks/useLoading/useLoading';
+import FetchPictures from './FetchPictures/FetchPictures';
+import ToastWarn from './ToastWarn/ToastWarn';
 
 export default function App() {
   const [queryString, setQueryString] = useState('');
@@ -49,11 +50,25 @@ export default function App() {
     return;
   };
 
-  const loadingPictures = useLoading;
-
   useEffect(() => {
-    loadingPictures(isLoaded, queryString, page, setIsLoading, setPictures, setTotalPages);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!isLoaded.current) {
+      isLoaded.current = true;
+      return;
+    }
+
+    if (!queryString) {
+      return;
+    }
+    setIsLoading(true);
+    FetchPictures(queryString, page)
+      .then(picData => {
+        setPictures(prevPictures => [...prevPictures, ...picData.hits]);
+        setTotalPages(Math.ceil(picData.totalHits / 12));
+        if (picData.hits.length === 0) {
+          ToastWarn('Nothing was found');
+        }
+      })
+      .finally(() => setIsLoading(false));
   }, [queryString, page]);
 
   let endOfSearch = false;
