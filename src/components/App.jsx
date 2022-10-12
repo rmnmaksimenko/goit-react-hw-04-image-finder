@@ -7,11 +7,10 @@ import { ToastContainer } from 'react-toastify';
 
 import SearchForm from './Searchbar';
 import { LoadMore } from './Button';
-import FetchPictures from './FetchPictures/FetchPictures';
 import ImageGallery from './ImageGallery';
 import { Modal } from './modal/modal';
-import ToastWarn from './ToastWarn/ToastWarn';
 import Spinner from './Spinner/Spinner';
+import useLoading from 'hooks/useLoading/useLoading';
 
 export default function App() {
   const [queryString, setQueryString] = useState('');
@@ -50,25 +49,10 @@ export default function App() {
     return;
   };
 
-  useEffect(() => {
-    if (!isLoaded.current) {
-      isLoaded.current = true;
-      return;
-    }
+  const loadingPictures = useLoading;
 
-    if (!queryString) {
-      return;
-    }
-    setIsLoading(true);
-    FetchPictures(queryString, page)
-      .then(picData => {
-        setPictures(prevPictures => [...prevPictures, ...picData.hits]);
-        setTotalPages(Math.ceil(picData.totalHits / 12));
-        if (picData.hits.length === 0) {
-          ToastWarn('Nothing was found');
-        }
-      })
-      .finally(() => setIsLoading(false));
+  useEffect(() => {
+    loadingPictures(isLoaded, queryString, page, setIsLoading, setPictures, setTotalPages);
   }, [queryString, page]);
 
   let endOfSearch = false;
