@@ -28,7 +28,10 @@ ImageGallery.propTypes = {
       id: PropTypes.number.isRequired,
       webformatURL: PropTypes.string.isRequired,
       largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
     })
   ),
   toggleModal: PropTypes.func.isRequired,
+  setLargeURL: PropTypes.func.isRequired,
+  setAlt: PropTypes.func.isRequired,
 };

@@ -53,6 +53,7 @@ export default function App() {
 
   useEffect(() => {
     loadingPictures(isLoaded, queryString, page, setIsLoading, setPictures, setTotalPages);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryString, page]);
 
   let endOfSearch = false;

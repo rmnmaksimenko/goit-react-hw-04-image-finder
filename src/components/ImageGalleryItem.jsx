@@ -1,20 +1,27 @@
 import PropTypes from 'prop-types';
 import './styles.css';
 
-export function ImageGalleryItem(pic) {
+export function ImageGalleryItem({
+  webformatURL,
+  tags,
+  largeImageURL,
+  toggleModal,
+  setLargeURL,
+  setAlt,
+}) {
   return (
     <li>
       {
         <img
           className="ImageGalleryItem-image"
-          src={pic.webformatURL}
+          src={webformatURL}
           width="300"
-          alt={pic.tags}
-          large={pic.largeImageURL}
+          alt={tags}
+          large={largeImageURL}
           onClick={function () {
-            pic.toggleModal();
-            pic.setLargeURL(pic.largeImageURL);
-            pic.setAlt(pic.tags);
+            toggleModal();
+            setLargeURL(largeImageURL);
+            setAlt(tags);
           }}
         />
       }
@@ -23,11 +30,10 @@ export function ImageGalleryItem(pic) {
 }
 
 ImageGalleryItem.propTypes = {
-  pic: PropTypes.arrayOf(
-    PropTypes.shape({
-      webformatURL: PropTypes.string.isRequired,
-      largeImageURL: PropTypes.string.isRequired,
-      toggleModal: PropTypes.func.isRequired,
-    })
-  ),
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  setLargeURL: PropTypes.func.isRequired,
+  setAlt: PropTypes.func.isRequired,
 };
