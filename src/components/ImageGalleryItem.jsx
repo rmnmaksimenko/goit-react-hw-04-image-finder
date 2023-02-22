@@ -17,7 +17,6 @@ export function ImageGalleryItem({
           src={webformatURL}
           width="300"
           alt={tags}
-          large={largeImageURL}
           onClick={function () {
             toggleModal();
             setLargeURL(largeImageURL);
